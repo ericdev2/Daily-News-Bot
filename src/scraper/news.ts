@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getStockPrices } from './stocks';
 import { getCryptoPrices } from './crypto';
 import dotenv from 'dotenv';
+import { sendDiscordMessage } from '../discord';
 
 dotenv.config();
 
@@ -44,4 +45,9 @@ ${cryptos.join('\n')}
 📰 **News**
 ${headlines.map((h, i) => `${i + 1}. ${h}`).join('\n')}
   `.trim();
+}
+
+export async function runBot() {
+  const message = await generateMarketReport();
+  await sendDiscordMessage(message);
 }
